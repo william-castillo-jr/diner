@@ -1,0 +1,13 @@
+{
+  "name": "williamcastillojr/328/diner",
+  "description": "My MVC Diner Application",
+  "authors": [
+    {
+      "name": "Will Castillo",
+      "email": "castillo.william@student.greenriver.edu"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  }
+}
