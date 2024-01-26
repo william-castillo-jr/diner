@@ -1,63 +1,97 @@
 <?php
-/**
- * William Castillo
+/* Will Castillo
  * January 2024
- * https://williamcastillojr.greenriverdev.com/328/diner/
+ * https://tostrander.greenriverdev.com/328/diner/
  * This is my CONTROLLER for the Diner app
  */
 
-//Turn on error reporting
+// Turn on error reporting
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// require the autoload file
-require_once('vendor/autoload.php');
+// Require the autoload file
+require_once ('vendor/autoload.php');
 
 // Instantiate Fat-Free framework (F3)
-//:: is how you instantiate a static method
-$f3 = Base::instance();
+$f3 = Base::instance(); //static method
 
-//define a default route
+// Define a default route
 $f3->route('GET /', function() {
+    //echo "My Diner";
+
     // Display a view page
     $view = new Template();
     echo $view->render('views/home.html');
 });
 
-//define a breakfast route
+// Define a breakfast route
 $f3->route('GET /breakfast', function() {
-   // echo "Breakfast";
+    //echo "Breakfast";
+
+    // Display a view page
     $view = new Template();
     echo $view->render('views/breakfast-menu.html');
 });
 
-//define a order route
+// Define a order form 1 route
 $f3->route('GET|POST /order', function($f3) {
-    $view = new Template();
-    echo $view->render('views/order.html');
 
-    //if the form has been posted
+    // If the form has been posted
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        // validate the data
+        // Validate the data
         $food = $_POST['food'];
         $meal = $_POST['meal'];
 
-        //put the data in the session array
+        // Put the data in the session array
         $f3->set('SESSION.food', $food);
         $f3->set('SESSION.meal', $meal);
 
-        //redirect to order2 route
-        $f3->reroute('summary');
+        // Redirect to order2 route
+        $f3->reroute('order2');
     }
+
+    $view = new Template();
+    echo $view->render('views/order.html');
 });
 
-//define a order route
+// Define a order form 2 route
+$f3->route('GET|POST /order2', function($f3) {
+    //echo "Order Form Part II";
+
+    // If the form has been posted
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        // Validate the data
+        if (isset($_POST['conds'])){
+            $conds = implode(", ", $_POST['conds']);
+        }
+        else {
+            $conds = "None selected";
+        }
+
+        // Put the data in the session array
+        $f3->set('SESSION.conds', $conds);
+
+        // Redirect to summary route
+        $f3->reroute('summary');
+
+    }
+
+    // Display a view page
+    $view = new Template();
+    echo $view->render('views/order-form-2.html');
+
+});
+
+// Define an order summary route
 $f3->route('GET /summary', function() {
+    //echo "Thank you for your order!";
+
+    // Display a view page
     $view = new Template();
     echo $view->render('views/order-summary.html');
 });
 
-
-//Run Fat-Free
-$f3-> run(); //instance method
+// Run Fat-Free
+$f3->run(); //instance method
