@@ -11,6 +11,7 @@ error_reporting(E_ALL);
 
 // Require the autoload file
 require_once ('vendor/autoload.php');
+require_once ('model/data-layer.php');
 
 // Instantiate Fat-Free framework (F3)
 $f3 = Base::instance(); //static method
@@ -51,8 +52,8 @@ $f3->route('GET|POST /order', function($f3) {
         $f3->reroute('order2');
     }
 
-    //Add data to the F3 "hive"
-    $f3->set('meals', array('breakfast','lunch','dinner'));
+    //Get data from the model and add to the F3 "hive"
+    $f3->set('meals', getMeals());
 
     $view = new Template();
     echo $view->render('views/order.html');
@@ -80,6 +81,8 @@ $f3->route('GET|POST /order2', function($f3) {
         $f3->reroute('summary');
 
     }
+
+    $f3->set('condiments', @getCondiments());
 
     // Display a view page
     $view = new Template();
