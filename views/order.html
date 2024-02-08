@@ -1,16 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/styles.css">
-
-    <title>My Diner</title>
-</head><body>
+<include href="views/header.html"></include>
+<body>
 <div class="container">
     <h1>The Diner:  Order Form Part 1</h1>
 
@@ -24,6 +13,9 @@
                 <input class="form-control" type="text" name="food" id="food" value="">
 
                 <!-- Display an error if there is one -->
+                <check if="{{ isset(@errors['food']) }}">
+                    {{ @errors['food'] }}
+                </check>
             </div>
         </div>
         <br>
