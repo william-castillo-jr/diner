@@ -1,21 +1,39 @@
 <?php
 
-
 /*
  * 328/diner/model/validate.php
  * Validate data for the diner app
  */
 
 // Return true if food is valid
-function validFood($food)
+class Validate
 {
-    if (trim($food == ""))
+    static function validFood($food)
     {
-        return false;
+        if (trim($food == ""))
+        {
+            return false;
+        }
+        return true;
     }
-    if (!ctype_alpha($food))
+
+// with curly braces when defining methods/functions,
+// they need to align
+    static function validMeal($meal)
     {
-        return false;
+        return in_array($meal, DataLayer::getMeals());
+//    $validMeals = array("breakfast", "lunch", "dinner");
+//    $validMeals = getMeals();
+
+
+        // a different way to put it,
+        // but top one is more simplified
+//    if (in_array($meal, $validMeals))
+//    {
+//        return true;
+//    }
+//    else {
+//        return false;
+//    }
     }
-    return true;
 }
