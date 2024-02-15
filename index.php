@@ -14,6 +14,10 @@ require_once ('vendor/autoload.php');
 require_once ('model/data-layer.php');
 require_once ('model/validate.php');
 
+// Test my Order class
+//$order = new Order("pizza","lunch","breakfast");
+//var_dump($order);
+
 // Instantiate Fat-Free framework (F3)
 $f3 = Base::instance(); //static method
 
@@ -40,6 +44,7 @@ $f3->route('GET|POST /order', function($f3) {
 
     //initialize variables for scope in if statements
     $food = "";
+    $meal = "";
 
     // If the form has been posted
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -53,15 +58,28 @@ $f3->route('GET|POST /order', function($f3) {
             $f3->set('errors["food"]', "Invalid food");
         }
 
-        // Validate the data
-        $meal = $_POST['meal'];
+        if (isset($_POST['meal']) and validMeal($_POST['meal']))
+        {
+            $meal = $_POST['meal'];
+        }
+        else
+        {
+            $f3->set('errors["meal"]', "Invalid meal");
+        }
 
         //if there are no errors
         if (empty($f3->get('errors')))
         {
-            // Put the data in the session array
-            $f3->set('SESSION.food', $food);
-            $f3->set('SESSION.meal', $meal);
+            // Instantiate an Order object
+            $order = new Order($food, $meal);
+
+            //Put the object in the session array
+            $f3->set('SESSION.order', $order);
+//            var_dump($f3->get('SESSION.order')); ********* Use var dump to test **********
+
+//            // Put the data in the session array
+//            $f3->set('SESSION.food', $food);
+//            $f3->set('SESSION.meal', $meal);
 
             // Redirect to order2 route
             $f3->reroute('order2');
@@ -91,7 +109,10 @@ $f3->route('GET|POST /order2', function($f3) {
         }
 
         // Put the data in the session array
-        $f3->set('SESSION.conds', $conds);
+        // get existing object and set the condiments
+//        $f3->set('SESSION.conds', $conds);
+          $f3->get('SESSION.order')->setCondiments($conds);
+//          var_dump($f3->get('SESSION.order'));
 
         // Redirect to summary route
         $f3->reroute('summary');
