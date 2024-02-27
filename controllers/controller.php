@@ -111,9 +111,24 @@ class Controller
 
     }
 
+    function view_orders()
+    {
+        // get the orders from the model
+        $orders =  $GLOBALS['dataLayer']->getOrders();
+        $this->_f3->set('orders', $orders);
+
+        $view = new Template();
+        echo $view->render('views/view-orders.html');
+    }
+
+
     function summary()
     {
         //echo "Thank you for your order!";
+
+        // Save order to Database
+        $orderId = $GLOBALS['dataLayer']->saveOrder($this->_f3->get('SESSION.order'));
+        $this->_f3->set('orderId', $orderId);
 
         // Display a view page
         $view = new Template();

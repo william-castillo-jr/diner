@@ -5,6 +5,8 @@
         <h2>Thank you for your order!</h2>
         <p>You ordered {{ @SESSION.order->getFood() }} for {{ @SESSION.order->getMeal() }}</p>
         <p>Condiments: {{ @SESSION.order->getCondiments() }}</p>
+        <p>Order ID: {{ @orderId }}</p>
+
         <a href="{{ @BASE }}">Home Page</a>
         <a href="order">Place another order</a>
     </div>

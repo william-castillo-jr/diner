@@ -1,3 +1,17 @@
+<include href="views/header.html"/>
 <body>
-    <h1>View Orders Page</h1>
+    <div class="container">
+        <h1>GRC Diner</h1>
+        <h2>View Orders Page</h2>
+
+        <repeat group = "{{ @orders }}" value="{{ @order }}">
+            <p>{{ @order.order_id}}. {{ @order.food }}, {{ @order.meal }},
+                {{ @order.condiments }}, {{ @order.date_time }}</p>
+        </repeat>
+
+    <!--    {{ var_dump(@orders) }}-->
+
+        <a href="{{ @BASE }}">Home Page</a>
+    </div>
 </body>
+</html>
